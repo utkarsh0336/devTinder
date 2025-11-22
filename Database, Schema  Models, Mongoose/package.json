@@ -1,0 +1,28 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "tinder for devs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utkarsh0336/Dev-Tinder.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Utkarsh Sahay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/utkarsh0336/Dev-Tinder/issues"
+  },
+  "homepage": "https://github.com/utkarsh0336/Dev-Tinder#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^9.0.0"
+  }
+}
