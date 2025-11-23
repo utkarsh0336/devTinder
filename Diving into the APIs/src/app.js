@@ -1,23 +1,47 @@
 const express = require("express");
-const connectDB  = require("./config/database.js");
+const connectDB = require("./config/database.js");
 const app = express(); // instance of express js application
 const User = require("./models/user.js");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-    const userObj = req.body;
-    // Creating a new instance of the User model
-    const user = new User(userObj);
-    try{
-        await user.save();   //  this function returns a promise
-        res.send("User added successfully");
-    }
-    catch(err){
-        res.status(400).send("Error saving the user : " + err.message);
-    }
+  const userObj = req.body;
+  // Creating a new instance of the User model
+  const user = new User(userObj);
+  try {
+    await user.save(); //  this function returns a promise
+    res.send("User added successfully");
+  } catch (err) {
+    res.status(400).send("Error saving the user : " + err.message);
+  }
 });
 
+// GET user by email
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.emailId;
+
+  try {
+    const user = await User.find({ emailId: userEmail });
+    if (user.length === 0) {
+      res.status(404).send("User Not Found !!!");
+    } else {
+      res.send(user);
+    }
+  } catch (err) {
+    res.status(400).send("Something went wrong !!!");
+  }
+});
+
+// Feed API - GET /feed - get all the users from the database
+app.get("/feed", async (req, res) => {
+  try {
+    const user = await User.find({});
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Something went wrong !!!");
+  }
+});
 
 connectDB()
   .then(() => {
