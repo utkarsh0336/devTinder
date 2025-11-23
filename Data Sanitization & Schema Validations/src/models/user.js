@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { required } = require("nodemon/lib/config");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,10 +19,20 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true, // if you pass some uppercase letter in email , it will get converted into lowercase automatically
       trim: true, // trim the sapces
+      validate(value){
+        if(!validator.isEmail(value)){
+            throw new Error("Invalid Email Address");
+        }
+      }
     },
     password: {
       type: String,
       reqiured: true,
+      validate(value){
+        if(!validator.isStrongPassword(value)){
+            throw new Error("Invalid Email Address");
+        }
+      }
     },
     age: {
       type: Number,
@@ -39,6 +50,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg",
+      validate(value){
+        if(!validator.isURL(value)){
+            throw new Error("Invalid Email Address");
+        }
+      }
     },
     about: {
       type: String,
