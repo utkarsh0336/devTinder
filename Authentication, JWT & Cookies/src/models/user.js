@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
+const { required } = require("nodemon/lib/config");
 const validator = require("validator");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -13,28 +12,28 @@ const userSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      required: true,
+      required: true
     },
     emailId: {
       type: String,
-      required: true,
+      reqiured: true,
       unique: true,
       lowercase: true, // if you pass some uppercase letter in email , it will get converted into lowercase automatically
       trim: true, // trim the sapces
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error("Invalid Email Address");
+      validate(value){
+        if(!validator.isEmail(value)){
+            throw new Error("Invalid Email Address");
         }
-      },
+      }
     },
     password: {
       type: String,
-      required: true,
-      validate(value) {
-        if (!validator.isStrongPassword(value)) {
-          throw new Error("Please enter a strong password");
+      reqiured: true,
+      validate(value){
+        if(!validator.isStrongPassword(value)){
+            throw new Error("Please enter a strong password");
         }
-      },
+      }
     },
     age: {
       type: Number,
@@ -52,11 +51,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg",
-      validate(value) {
-        if (!validator.isURL(value)) {
-          throw new Error("Invalid Email Address");
+      validate(value){
+        if(!validator.isURL(value)){
+            throw new Error("Invalid Email Address");
         }
-      },
+      }
     },
     about: {
       type: String,
@@ -71,25 +70,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+const User = mongoose.model("User", userSchema);
+// mongoose.model(name of the model, schema of the model)
 
-userSchema.methods.getJWT = async function () {  // arrow function does not work here because this keyword works differently inside arrow function
-  const user = this;
-
-  const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790", {
-    expiresIn: "7d", // token Expires in 7 days
-  })
-  return token;
-};
-
-
-  userSchema.methods.validatePassword = async function (passwordInputByUser) {
-    const user = this;
-    const passwordHash = user.password;
-
-    const isPasswordValid = await bcrypt.compare(passwordInputByUser, passwordHash);  
-
-    return isPasswordValid;
-  };
-  
-
-module.exports = mongoose.model("User",userSchema);
+module.exports = User;
