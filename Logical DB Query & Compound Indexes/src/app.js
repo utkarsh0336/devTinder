@@ -5,6 +5,7 @@ const User = require("./models/user.js");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
+
 app.use(express.json());
 app.use(cookieParser());
 
