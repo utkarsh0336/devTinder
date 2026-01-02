@@ -23,7 +23,7 @@
   "homepage": "https://github.com/utkarsh0336/Dev-Tinder#readme",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "mongoose": "^9.0.0"
   }
 }
